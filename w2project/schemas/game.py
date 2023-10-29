@@ -47,9 +47,52 @@ class GameConfig(BaseModel):
     red_team_id: str
     red_team_players_id: list[str]
     tournament_id: str
+    dawe_id: str
 
-class GameMessage:
+class GameMessage(BaseModel):
     origin: str
     type: str
+    user: str
     status: Optional[GameStatus]
     config: Optional[GameConfig]
+
+class ViewTeamConfig(BaseModel):
+    name: str
+    score : int
+    coach : str
+    logo: str
+    color: str
+
+class ViewGameConfig(BaseModel):
+    logo: str 
+    scoreEnabled: bool 
+    spellsEnabled: bool 
+    coachesEnabled: bool 
+    blueTeam: ViewTeamConfig
+    redTeam: ViewTeamConfig 
+    patch: str
+
+class ViewChampion(BaseModel):
+    name: str
+    idName: str
+    loadingImage: str
+    squareImg: str
+
+class ViewSelect(BaseModel):
+    champion: str
+    isActive: bool
+    displayName: Optional[str]
+
+class ViewTeamState(BaseModel): 
+    picks: list[ViewSelect]
+    bans: list[ViewSelect]
+    isActive: bool
+
+class ViewGameState(BaseModel): 
+    config: ViewGameConfig 
+    blueTeam : ViewTeamState
+    redTeam : ViewTeamState 
+
+class ViewGame(BaseModel):
+    eventType: str 
+    state: ViewGameState
